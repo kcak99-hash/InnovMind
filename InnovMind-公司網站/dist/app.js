@@ -1,0 +1,6 @@
+const menu=document.querySelector('.menu-toggle');
+const nav=document.querySelector('#navigation');
+menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true'; menu.setAttribute('aria-expanded',String(open));menu.setAttribute('aria-label',open?'關閉導覽選單':'開啟導覽選單');nav.classList.toggle('open',open);menu.textContent=open?'×':'☰';});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.getAttribute('aria-expanded')==='true'){menu.click();menu.focus();}});
+const form=document.querySelector('#brief-form');
+if(form){form.addEventListener('submit',e=>{e.preventDefault();const data=new FormData(form);document.querySelector('#brief-output').value=`創智科研生技｜合作構想\n\n單位／團隊：${data.get('organization').trim()}\n合作方向：${data.get('topic')}\n\n需求與構想：\n${data.get('message').trim()}`;document.querySelector('#brief-result').hidden=false;document.querySelector('#copy-status').textContent='摘要已產生，尚未傳送。';document.querySelector('#brief-output').focus();});document.querySelector('#copy-brief').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(document.querySelector('#brief-output').value);document.querySelector('#copy-status').textContent='已複製合作摘要。';}catch{document.querySelector('#brief-output').select();document.querySelector('#copy-status').textContent='請使用鍵盤複製已選取的摘要。';}});}
